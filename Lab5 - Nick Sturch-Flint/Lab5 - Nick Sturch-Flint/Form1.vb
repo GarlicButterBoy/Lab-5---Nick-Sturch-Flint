@@ -1,8 +1,9 @@
 ﻿Option Strict On
 Imports System.IO
 Public Class TextEditorForm
-
+    'declarations
     Dim workingFileName As String = String.Empty
+    Dim tempString As String
 
     ''' <summary>
     ''' Starts a new file
@@ -14,7 +15,10 @@ Public Class TextEditorForm
         ' reset workingFileName
         workingFileName = String.Empty
         lblStatus.Text = "New File Started"
+        tempString = txtMain.Text
     End Sub
+
+
     ''' <summary>
     ''' Opens an existing text file
     ''' </summary>
@@ -29,9 +33,12 @@ Public Class TextEditorForm
             inputStream.Close()
             'update working file name
             workingFileName = openDialog.FileName
+            tempString = txtMain.Text
             lblStatus.Text = "Loaded File " & openDialog.FileName
         End If
     End Sub
+
+
     ''' <summary>
     ''' When user clicks Save As
     ''' </summary>
@@ -46,6 +53,8 @@ Public Class TextEditorForm
         '   if savedialog is ok
         SaveRoutine(workingFileName) '     saveRoutine(workingFileName)
     End Sub
+
+
     ''' <summary>
     ''' When user clicks save and the file exists
     ''' </summary>
@@ -64,9 +73,9 @@ Public Class TextEditorForm
             SaveRoutine(workingFileName)
             lblStatus.Text = "Saved File " & saveDialog.FileName
         End If
-
-        '   saveRoutine(workingFileName)
     End Sub
+
+
     ''' <summary>
     ''' sub method to be called when saving a file
     ''' </summary>
@@ -79,20 +88,74 @@ Public Class TextEditorForm
         outputStream.Write(txtMain.Text)
         ' close streamwriter
         outputStream.Close()
-
+        tempString = txtMain.Text
         lblStatus.Text = "Saved File " & saveDialog.FileName
     End Sub
 
-    Private Sub AboutClick(send As Object, e As EventArgs) Handles mnuHelpAbout.Click
+
+    ''' <summary>
+    ''' Method for the Copy Command
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub CopyClick(sender As Object, e As EventArgs) Handles mnuEditCopy.Click
+        My.Computer.Clipboard.SetText(txtMain.SelectedText)
+    End Sub
+
+
+    ''' <summary>
+    ''' Method for the Cut Command
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub CutClick(sender As Object, e As EventArgs) Handles mnuEditCut.Click
+        My.Computer.Clipboard.SetText(txtMain.SelectedText)
+        txtMain.SelectedText = ""
+    End Sub
+
+
+    ''' <summary>
+    ''' Method for the Paste Command
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub PasteClick(sender As Object, e As EventArgs) Handles mnuEditPaste.Click
+        txtMain.SelectedText = My.Computer.Clipboard.GetText()
+    End Sub
+
+
+    ''' <summary>
+    ''' When the about button is clicked
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub AboutClick(sender As Object, e As EventArgs) Handles mnuHelpAbout.Click
         Dim aboutModal As New AboutForm
 
-        aboutModal.ShowDialog()
-    End Sub
-
-    Private Sub ExitClick(send As Object, e As EventArgs) Handles mnuFileExit.Click
-        Me.Close()
+        aboutModal.ShowDialog() 'show new window
     End Sub
 
 
+    ''' <summary>
+    ''' When the close button is clicked
+    ''' </summary>
+    ''' <param name="sender"></param>
+    ''' <param name="e"></param>
+    Private Sub ExitClick(sender As Object, e As EventArgs) Handles mnuFileExit.Click
+
+        ConfirmClose()
+
+    End Sub
+
+    Private Sub ConfirmClose()
+
+        Dim confirmCloseModal As New ConfirmClose
+
+        If txtMain.Text IsNot tempString Then 'if the file wasn't just saved, open prompt
+            confirmCloseModal.ShowDialog()
+        Else
+            Me.Close()
+        End If
+    End Sub
 
 End Class

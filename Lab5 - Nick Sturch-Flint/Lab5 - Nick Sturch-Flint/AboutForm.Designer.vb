@@ -28,25 +28,25 @@ Partial Class AboutForm
         '
         'lblAbout
         '
-        Me.lblAbout.AutoSize = True
-        Me.lblAbout.Location = New System.Drawing.Point(159, 91)
+        Me.lblAbout.Location = New System.Drawing.Point(12, 9)
         Me.lblAbout.Name = "lblAbout"
-        Me.lblAbout.Size = New System.Drawing.Size(112, 13)
+        Me.lblAbout.Size = New System.Drawing.Size(131, 106)
         Me.lblAbout.TabIndex = 0
-        Me.lblAbout.Text = "This is the about page"
+        Me.lblAbout.TextAlign = System.Drawing.ContentAlignment.MiddleCenter
         '
         'AboutForm
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(431, 216)
+        Me.ClientSize = New System.Drawing.Size(155, 124)
         Me.Controls.Add(Me.lblAbout)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "AboutForm"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent
         Me.Text = "AboutForm"
         Me.ResumeLayout(False)
-        Me.PerformLayout()
 
     End Sub
 
